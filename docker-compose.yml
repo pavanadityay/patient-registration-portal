@@ -1,0 +1,41 @@
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - redis
+
+  backend-dapr:
+    image: "daprio/daprd:1.18.0"
+    command:
+      [
+        "./daprd",
+        "--app-id", "patient-api",
+        "--app-port", "8000",
+        "--dapr-http-port", "3500",
+        "--components-path", "/components"
+      ]
+    volumes:
+      - "./backend/components:/components"
+    network_mode: "service:backend"
+    depends_on:
+      - backend
+      - redis
+
+  frontend:
+    build: ./frontend/patient-registration-portal
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: "http://localhost:8000"
+      INTERNAL_API_BASE_URL: "http://backend:8000"
+    depends_on:
+      - backend
