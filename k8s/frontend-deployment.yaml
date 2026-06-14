@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      imagePullSecrets:
+        - name: acr-secret
+      containers:
+        - name: frontend
+          image: patientdemoacr.azurecr.io/frontend:v1
+          ports:
+            - containerPort: 3000
+          env:
+            - name: INTERNAL_API_BASE_URL
+              value: "http://backend:8000"
+            - name: NEXT_PUBLIC_API_BASE_URL
+              value: "http://20.116.248.200:8000"
