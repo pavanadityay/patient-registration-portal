@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { notFound } from "next/navigation";
 
 import { getPatient } from "@/services/patient.service";
+import type { Patient } from "@/types/patient";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -15,7 +16,7 @@ type PatientDetailsClientProps = {
 export function PatientDetailsClient({
   patientId,
 }: PatientDetailsClientProps) {
-  const [patient, setPatient] = useState<any>(null);
+  const [patient, setPatient] = useState<Patient | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

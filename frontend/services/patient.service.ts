@@ -1,4 +1,5 @@
 import type { PatientRegistrationFormValues } from "@/schemas/patient.schema";
+import type { Patient } from "@/types/patient";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;;
 
@@ -26,25 +27,25 @@ export async function getPatients(params?: {
   if (params?.count)
     searchParams.append("count", params.count.toString());
 
-  const response = await fetch(
-    `${API_BASE}/patients?${searchParams.toString()}`
-  );
+  const response = await fetch(`${API_BASE}/patients?${searchParams.toString()}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch patients");
   }
 
-  return response.json();
+  const data = (await response.json()) as Array<{ patient: Patient }>;
+  return data;
 }
 
-export async function getPatient(id: string) {
+export async function getPatient(id: string): Promise<{ patient: Patient }> {
   const response = await fetch(`${API_BASE}/patients/${id}`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch patient");
   }
 
-  return response.json();
+  const data = (await response.json()) as { patient: Patient };
+  return data;
 }
 
 export async function registerPatient(

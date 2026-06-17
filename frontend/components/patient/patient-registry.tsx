@@ -31,7 +31,7 @@ export function PatientRegistry() {
         count: 50,
       });
 
-      setPatients(data.map((item: any) => item.patient));
+      setPatients(data.map((item) => item.patient));
     } finally {
       setLoading(false);
     }

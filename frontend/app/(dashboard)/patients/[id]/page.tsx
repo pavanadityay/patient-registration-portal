@@ -1,15 +1,15 @@
-import { PatientDetailsClient } from "@/components/patient/patient-details-client";
+import PatientDetailsScreen from "./PatientDetailsScreen";
 
 type PatientDetailsPageProps = {
-  params: Promise<{
+  params: {
     id: string;
-  }>;
+  };
 };
 
-export default async function PatientDetailsPage({
-  params,
-}: PatientDetailsPageProps) {
-  const { id } = await params;
+const PatientDetailsPage = async ({ params }: PatientDetailsPageProps) => {
+  const { id } = params;
 
-  return <PatientDetailsClient patientId={id} />;
-}
+  return <PatientDetailsScreen patientId={id} />;
+};
+
+export default PatientDetailsPage;

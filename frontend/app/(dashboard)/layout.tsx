@@ -2,11 +2,11 @@ import type { ReactNode } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Sidebar } from "@/components/layout/sidebar";
 
-export default function DashboardLayout({
+const DashboardLayout = ({
   children,
 }: {
   children: ReactNode;
-}) {
+}) => {
   return (
     <div className="min-h-screen bg-slate-50">
       <Sidebar />
@@ -18,4 +18,6 @@ export default function DashboardLayout({
       </div>
     </div>
   );
-}
+};
+
+export default DashboardLayout;
